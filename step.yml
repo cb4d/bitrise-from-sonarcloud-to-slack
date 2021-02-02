@@ -32,9 +32,13 @@ deps:
   brew:
   - name: git
   - name: wget
+  - name: python3
+  - name: python3-pip
   apt_get:
   - name: git
   - name: wget
+  - name: python3
+  - name: python3-pip
 
 
 toolkit:
