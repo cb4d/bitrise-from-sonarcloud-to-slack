@@ -1,0 +1,78 @@
+#
+# A couple of useful guides & docs:
+#
+# - Main Bitrise CLI docs: https://github.com/bitrise-io/bitrise/tree/master/_docs
+# - Step Development Guideline: https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
+# - Bitrise.yml format spec: https://github.com/bitrise-io/bitrise/blob/master/_docs/bitrise-yml-format-spec.md
+# - Bitrise docs: http://devcenter.bitrise.io/
+# - Bitrise CLI guides: http://devcenter.bitrise.io/bitrise-cli/
+
+title: |-
+  sonarcloud-project-status-slack-hook
+summary: |
+  Report sonarcloud status to slack
+description: |
+  Gets project status and report it, with any failing conditions, to a slack incoming webhook url
+website: https://github.com/cb4d/bitrise-step-sonarcloud-project-status-slack-hook
+source_code_url: https://github.com/cb4d/bitrise-step-sonarcloud-project-status-slack-hook
+support_url: https://github.com/cb4d/bitrise-step-sonarcloud-project-status-slack-hook/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+type_tags:
+  - notification
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+  - name: git
+  - name: wget
+  apt_get:
+  - name: git
+  - name: wget
+
+
+toolkit:
+  bash:
+    entry_file: step.sh
+
+
+inputs:
+  - sonar_project_key:
+    opts:
+      title: "Sonarcloud project key"
+      summary: Key from sonarcloud. Is the id parameter in the url for the project overview.
+      description: |
+        Eg in https://sonarcloud.io/dashboard?id=apadmi_cdv-perfectplay-android
+        the key is apadmi_cdv-perfectplay-android.
+      is_expand: true
+      is_required: true
+      value_options: []
+  - sonar_api_token: 
+    opts:
+      title: "Sonarcloud authentication token"
+      summary: Auth token to access sonarcloud api. See https://sonarcloud.io/account/security.
+      description: |
+        Create one at https://sonarcloud.io/account/security.
+        Used in basic auth to access sonarcloud api.
+      is_expand: true
+      is_required: true
+      is_sensitive: true
+      value_options: []
+  - slack_webhook_url:
+    opts:
+      title: "Slack webhook URL"
+      summary: Target for the formatted status message. Create using the slack incoming webhooks app.
+      description: |
+        Url for your custom webhook. See https://api.slack.com/messaging/webhooks.
+      is_expand: true
+      is_required: true
+      is_sensitive: true
+      value_options: []
+
+outputs:
